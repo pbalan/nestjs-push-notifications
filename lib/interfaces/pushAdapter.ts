@@ -15,5 +15,5 @@ export interface PushAdapter {
   /**
    * Get config of the adapter's instance.
    */
-  getConfig(): Record<string, any>
+  getConfig(): Record<string, any> | any
 }
