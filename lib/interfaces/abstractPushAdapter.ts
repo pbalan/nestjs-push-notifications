@@ -1,7 +1,7 @@
 import { PushAdapter } from './pushAdapter'
 
 export abstract class AbstractPushAdapter implements PushAdapter {
-  constructor(protected config?: Record<string, any>) {}
+  constructor(protected adapter: string, protected config?: Record<string, any>) {}
 
   public getConfig(): Record<string, any> | any {
     return this.config

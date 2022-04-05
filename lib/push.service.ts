@@ -11,11 +11,11 @@ export class PushService {
 
   constructor(@Inject(map.PUSH_OPTIONS) options: PushOptions) {
     PushService.options = options
-    PushService.adapters = {}
+    PushService.adapters = options.adapters
     PushService.pushManager = new PushManager()
   }
 
-  static getAdapter(adapter: string): PushAdapter {
+  static getAdapter(adapter: string): Promise<PushAdapter> {
     if (PushService.adapters[adapter]) {
       return PushService.adapters[adapter]
     }
@@ -25,7 +25,7 @@ export class PushService {
     return pushAdapter
   }
 
-  static newAdapter(adapter: string): PushAdapter {
+  static newAdapter(adapter: string): Promise<PushAdapter> {
     return PushService.pushManager.getAdapter(adapter, PushService.options.adapters[adapter])
   }
 }
