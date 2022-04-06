@@ -5,27 +5,28 @@ import { PushManager } from './pushManager'
 
 @Injectable()
 export class PushService {
-  private static adapters: { [key: string]: any }
+  private static adapterTransports: { [key: string]: any }
   private static options: PushOptions
   private static pushManager: PushManager
 
   constructor(@Inject(map.PUSH_OPTIONS) options: PushOptions) {
     PushService.options = options
-    PushService.adapters = options.adapters
+    PushService.adapterTransports = options.adapters
     PushService.pushManager = new PushManager()
   }
 
-  static getAdapter(adapter: string): Promise<PushAdapter> {
-    if (PushService.adapters[adapter]) {
-      return PushService.adapters[adapter]
+  static async getAdapter(adapter: string): Promise<PushAdapter> {
+    if (PushService.adapterTransports[adapter]) {
+      return PushService.adapterTransports[adapter]
     }
 
-    const pushAdapter = PushService.newAdapter(adapter)
-    PushService.adapters[adapter] = pushAdapter
+    const pushAdapter = await PushService.newAdapter(adapter)
+    PushService.adapterTransports[adapter] = pushAdapter
+
     return pushAdapter
   }
 
-  static newAdapter(adapter: string): Promise<PushAdapter> {
-    return PushService.pushManager.getAdapter(adapter, PushService.options.adapters[adapter])
+  static async newAdapter(adapter: string): Promise<PushAdapter> {
+    return await PushService.pushManager.getAdapter(adapter, PushService.options.adapters[adapter])
   }
 }
