@@ -7,6 +7,6 @@ export abstract class AbstractPushAdapter implements PushAdapter {
     return this.config
   }
 
-  abstract notify(deviceId: string, notification: any): Promise<Record<string, any>>
+  abstract notify(deviceId: string, notification: any, options?: any): Promise<Record<string, any>>
   abstract getClient(): any
 }
